@@ -9,6 +9,7 @@ class Textbar extends React.Component {
             value: props.data,
         }
         this.handleChange = this.handleChange.bind(this)
+        this.firePreOnchange = this.firePreOnchange.bind(this)
         this.ouputData = {
             data: [],
         }

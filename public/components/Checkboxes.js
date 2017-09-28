@@ -170,7 +170,7 @@ class Checkboxes extends React.Component {
         
         return (
             <OutterDiv>
-                <TitleDiv>{label}</TitleDiv>
+                <TitleDiv className='optionTitleLabel' >{label}</TitleDiv>
                 <ConstentDiv>
                     {body}
                 </ConstentDiv>
@@ -198,8 +198,9 @@ class Checkboxes extends React.Component {
             font-family: 標楷體;
         `,
         titleDiv: styled.div`
-            font-size: 110%;
             margin-bottom: 5px;
+            font-size: 120%;
+            font-weight: bold;
         `,
         labelSpan: styled.span`
             margin-right: 5px;
@@ -230,7 +231,7 @@ Checkboxes.defaultProps = {
         }],
     defaultValue: 0,
     uni: false,
-    withOther: true,
+    withOther: false,
     withMemo: false,
     onChange: ()=>{}
 }

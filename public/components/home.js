@@ -3,6 +3,10 @@ import _ from 'lodash'
 
 import Checkboxes from './Checkboxes'
 import Textbar from './Textbar'
+import Datetime from './Datetime'
+import Textfield from './Textfield'
+
+import dataset from './data'
 
 class Home extends React.Component {
     constructor(props){
@@ -29,89 +33,11 @@ class Home extends React.Component {
         console.log(this.outputData);
     }
 
-    dataset = [
-        {
-            value:"stinSheet",
-            name: "針扎單",
-            component: "",
-            data:[],
-            order: [0],
-            children: [
-                {
-                    value:"empInfo",
-                    name: "員工資料",
-                    children: [
-                        {
-                            value: "empName",
-                            name:"姓名",
-                            component: 'textbar',
-                            children:[],
-                            data: [],
-                            order: [0,0,0],
-                        },
-                        {
-                            value: "eventDate",
-                            name:"發生時間",
-                            component: 'textbar',
-                            children:[],
-                            data:[],
-                            order: [0,0,1],
-                        }
-                    ],
-                    component: '',
-                    data: [],
-                    order: [0,0],
-                },
-                {
-                    value:"stinEvent",
-                    name: "針扎事件",
-                    children: [
-                        {
-                            value:"objectType",
-                            name:"扎傷物種類",
-                            component: 'checkboxesWithOtherWithMemo',
-                            children:[],
-                            data:[
-                                {
-                                    value:"generalStin",
-                                    name:"一般注射針頭",
-                                },
-                                {
-                                    value:"knife",
-                                    name:"手術刀",                                    
-                                }
-                            ],
-                            order: [0,1,0],
-                        },
-                        {
-                            value:"objectUse",
-                            name:"尖銳物用途",
-                            component: 'checkboxesWithOtherWithMemo',
-                            children:[],
-                            data:[
-                                {
-                                    value:"generalStin",
-                                    name:"一般注射針頭",
-                                },
-                                {
-                                    value:"knife",
-                                    name:"手術刀",                                    
-                                }
-                            ],
-                            order: [0,1,1],
-                        }
-                    ],
-                    component: "",
-                    data:[],
-                    order: [0,1],
-                },
-            ]
-        }
-    ]
+    dataset = dataset
 
     render() {
         return (
-            <div>
+            <div style={{padding: '0px 40px'}}>
                 {this.makeTaoForm(this.dataset)}
             </div>
         )
@@ -137,25 +63,66 @@ class Home extends React.Component {
                             key={key}
                             order = {order}
                         />
+            case "checkboxes":
+                return <Checkboxes 
+                            data = {data} 
+                            label={title} 
+                            onChange={onChange}
+                            key={key}
+                            order = {order}
+                        />
+            case "checkboxesUni":
+                return <Checkboxes 
+                            data = {data} 
+                            label={title} 
+                            onChange={onChange}
+                            uni
+                            key={key}
+                            order = {order}
+                        />                                
+            case "datetime":
+                return <Datetime 
+                            label={title} 
+                            key={key}
+                            order = {order}
+                            onChange={onChange}
+                        />
+            case "textfield":
+                return <Textfield
+                            label={title} 
+                            key={key}
+                            order = {order}
+                            onChange={onChange}
+                        />                
             default:
                 return <div key={key}>
                        </div>
         }
     }
 
-    makeTaoFormUni(data, preName){
+    makeTaoFormUni(data, preName, preOrder){
         if (data.children.length>0){
+
+            const hStyle = (preOrder.length==1)?{
+                fontSize: '40px', 
+                textAlign: 'center'
+            }: null
+
             return (
                 <div key= {data.name+preName}>
-                    <h1>{data.name}</h1>
+                    <h1 style={hStyle}>{data.name}</h1>
+                    <div>
                     {
                         _.map(
                             data.children,
-                            (eachdata)=>{
-                                return this.makeTaoFormUni(eachdata, data.name)
+                            (eachdata, idx)=>{
+                                let order = preOrder.slice()
+                                order.push(idx)
+                                return this.makeTaoFormUni(eachdata, data.name, order)
                             }
                         )
                     }
+                    </div>
                 </div>
             )
         }else {
@@ -166,7 +133,7 @@ class Home extends React.Component {
                     title: data.name, 
                     onChange: this.onChange,
                     key: data.name+preName,
-                    order: data.order
+                    order: preOrder
                 }
             )
         }
@@ -175,7 +142,7 @@ class Home extends React.Component {
     
     makeTaoForm(dataSet){
         return (
-            this.makeTaoFormUni(dataSet[0], 'root')
+            this.makeTaoFormUni(dataSet[0], 'root', [0])
         )
     }
 

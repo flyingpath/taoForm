@@ -5,6 +5,7 @@ import Checkboxes from './Checkboxes'
 import Textbar from './Textbar'
 import Datetime from './Datetime'
 import Textfield from './Textfield'
+import SelectAdd from './SelectAdd'
 
 import dataset from './data'
 
@@ -37,7 +38,7 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div style={{padding: '0px 40px'}}>
+            <div style={{padding: '0px 40px', fontFamily:'標楷體'}}>
                 {this.makeTaoForm(this.dataset)}
             </div>
         )
@@ -93,7 +94,14 @@ class Home extends React.Component {
                             key={key}
                             order = {order}
                             onChange={onChange}
-                        />                
+                        />
+            case "selectadd":
+                return <SelectAdd
+                            label={title} 
+                            key={key}
+                            order = {order}
+                            onChange={onChange}
+                        />                        
             default:
                 return <div key={key}>
                        </div>

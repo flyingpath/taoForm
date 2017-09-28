@@ -14,7 +14,7 @@ const data = [
                     {
                         value: "empName",
                         name:"姓名",
-                        component: 'textbar',
+                        component: 'selectadd',
                         children:[],
                         data: [],
                     },
